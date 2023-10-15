@@ -1,0 +1,24 @@
+Good morning, this is your daily digest for {{current_date.strftime("%A %B %d, %Y")}}.
+
+{{weather.current_summary}}
+
+Current temperature is {{weather.current_temperature_c}}°C.
+Data from Environment Canada. Updated at: {{weather.updated_at.strftime("%H:%M %p")}}
+{% for key, value in weather.urls.items() %}{{key}}: {{value.strip()}}
+{% endfor %}
+
+{% if article_count > 0 %}
+The following new articles have been published recently:
+{% for category in articles_categorized %}
+{{category}}
+{% for author in articles_categorized[category] %}
+>> {{author}}{% for article in articles_categorized[category][author] %}
+   - {{article.title}}
+     URL: {{article.url}}{% endfor %}
+{% endfor %}{% endfor %}
+{% else %}
+There are no new articles today.
+{% endif %}
+
+---
+Sent by the daily digest bot. Data generated at: {{current_date.strftime("%Y-%m-%d %H:%M:%S %p")}}

@@ -1,0 +1,16 @@
+Good evening! {% if is_weekday %}It's the end of your work day!{% endif %}
+
+{{weather.current_summary}}
+
+Current temperature is {{weather.current_temperature_c}}°C.
+Data from Environment Canada. Updated at: {{weather.updated_at.strftime("%H:%M %p")}}
+
+{% if article_count > 0 %}
+{{article_count}} new articles have been collected throughout the day and will be 
+sent to you tomorrow morning.
+{% else %}
+Nobody has published anything yet today.
+{% endif %}
+
+---
+Sent by the daily digest bot. Data generated at: {{current_date.strftime("%Y-%m-%d %H:%M:%S %p")}}
