@@ -28,19 +28,35 @@ class DigestDatabase:
         # Find all articles that have not been sent
         logger.debug("Getting unsent articles")
         cursor = self.connection.execute(
-            "SELECT id, title, author, url, category FROM articles WHERE sent = 0"
+            "SELECT id, title, author, url, category, publisher_id FROM articles WHERE sent = 0"
         )
 
         # Convert the results into Article objects
         articles = []
         for row in cursor:
+            
+            # Find the publisher for this article
+            publisher = None
+            publisher_cursor = self.connection.execute(
+                "SELECT id, name, rss_url, category FROM publishers WHERE id = ?",
+                (row[5],)
+            )
+            publisher_row = publisher_cursor.fetchone()
+            if publisher_row is not None:
+                publisher = Publisher(
+                    id=publisher_row[0],
+                    name=publisher_row[1],
+                    rss_url=publisher_row[2],
+                    category=publisher_row[3],
+                )
+            
             articles.append(
                 Article(
                     id=row[0],
                     title=row[1],
-                    author=row[2],
+                    author=publisher.name,
                     url=row[3],
-                    category=row[4],
+                    category=publisher.category,
                 )
             )
 
@@ -50,8 +66,8 @@ class DigestDatabase:
         # Check if the article already exists
         logger.debug(f"Checking if article exists: {article.title}")
         cursor = self.connection.execute(
-            "SELECT id FROM articles WHERE title = ? AND author = ? AND url = ?",
-            (article.title, article.author, article.url),
+            "SELECT id FROM articles WHERE title = ? AND url = ?",
+            (article.title, article.url),
         )
         row = cursor.fetchone()
         if row is not None:
