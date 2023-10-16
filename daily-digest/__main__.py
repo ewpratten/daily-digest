@@ -85,9 +85,12 @@ def main() -> int:
         
     # Mark all articles as sent
     if not args.no_mark_sent:
-        logger.info("Marking all articles as sent")
-        for article in articles:
-            db.mark_article_sent(article.id)
+        if args.digest_type == "morning":
+            logger.info("Marking all articles as sent")
+            for article in articles:
+                db.mark_article_sent(article.id)
+        else:
+            logger.info("Not marking articles as sent because this is an evening digest")
 
     return 0
 
