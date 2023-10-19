@@ -26,6 +26,11 @@ def get_articles_by_publisher(publisher: Publisher) -> List[Article]:
     # Convert the feed entries into Article objects
     articles = []
     for entry in feed.entries:
+        # If we have a paid LWN article, skip it
+        if publisher.rss_url == "http://lwn.net/headlines/Features" and entry.title.startswith("[$]"):
+            logger.info(f"Skipping paid LWN article: {entry.title}")
+            continue
+        
         articles.append(
             Article(
                 title=entry.title,
