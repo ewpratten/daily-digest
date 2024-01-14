@@ -68,6 +68,7 @@ def main() -> int:
     # Render the email body
     body = render_email_body(
         #weather,
+        None,
         articles,
         {"morning": "morning_digest.txt", "evening": "evening_digest.txt"}[
             args.digest_type
