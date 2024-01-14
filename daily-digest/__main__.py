@@ -60,14 +60,14 @@ def main() -> int:
 
 
     # Read needed data
-    weather = get_weather_report(
-        WEATHER_REGION, int(WEATHER_LOCATION_ID), args.digest_type
-    )
+    #weather = get_weather_report(
+    #    WEATHER_REGION, int(WEATHER_LOCATION_ID), args.digest_type
+    #)
     articles = db.get_unsent_articles()
 
     # Render the email body
     body = render_email_body(
-        weather,
+        #weather,
         articles,
         {"morning": "morning_digest.txt", "evening": "evening_digest.txt"}[
             args.digest_type
