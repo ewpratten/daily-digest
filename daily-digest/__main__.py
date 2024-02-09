@@ -54,6 +54,9 @@ def main() -> int:
             try:
                 articles = get_articles_by_publisher(publisher)
             except ConnectTimeout as e:
+                logger.warning(f"Timed out trying to fetch articles from {publisher.name}: {e}")
+                continue
+            except ConnectionError as e:
                 logger.warning(f"Failed to fetch articles from {publisher.name}: {e}")
                 continue
 
