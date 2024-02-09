@@ -2,7 +2,7 @@ import argparse
 import sys
 import logging
 from datetime import datetime
-from requests.exceptions import ConnectTimeout
+from requests.exceptions import ConnectTimeout, ConnectionError
 
 from .modules.weather.sources.environment_canada import get_weather_report
 from .modules.rss.fetch import get_articles_by_publisher
