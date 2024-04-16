@@ -35,7 +35,7 @@ def get_articles_by_publisher(publisher: Publisher) -> List[Article]:
             Article(
                 title=entry.title,
                 author=publisher.name,
-                url=entry.link,
+                url=entry.get("link", entry.get("guid", "")),
                 category=publisher.category,
             )
         )
